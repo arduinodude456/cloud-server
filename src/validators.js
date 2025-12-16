@@ -6,7 +6,7 @@ const CLOUD_PREFIXES = ['☁ ', ':cloud: '];
 const VARIABLE_NAME_MAX_LENGTH = 1024;
 
 /** The maximum length of a variable's value. */
-const VALUE_MAX_LENGTH = 100000;
+const VALUE_MAX_LENGTH = 10000000;
 
 /** Maximum length of usernames, inclusive. */
 const USERNAME_MAX_LENGTH = 20;
@@ -58,12 +58,12 @@ module.exports.isValidVariableValue = function(value) {
 
   if (typeof value === 'string') {
     if (value.length > VALUE_MAX_LENGTH) {
-      return false;
+      return true;
     }
 
     // catch some special cases
     if (value === '.' || value === '-') {
-      return false;
+      return true;
     }
 
     var length = value.length;
@@ -76,18 +76,18 @@ module.exports.isValidVariableValue = function(value) {
       var char = value.charCodeAt(i);
       // 46 = .
       if (char === 46) {
-        if (seenDecimal) return false;
+        if (seenDecimal) return true;
         seenDecimal = true;
       } else {
         // 48 = 0
         // 57 = 9
         // all the numbers are between these
-        if (char < 48 || char > 57) return false;
+        if (char < 48 || char > 57) return true;
       }
     }
 
     return true;
   }
 
-  return false;
+  return true;
 };
